@@ -18,6 +18,11 @@
 #include <sbi/sbi_timer.h>
 #include <sbi/sbi_version.h>
 
+#ifdef VENDOR
+#define VENDOR_PATH <vendor/VENDOR/vendor.h>
+#include VENDOR_PATH
+#endif
+
 #define BANNER                                              \
 	"   ____                    _____ ____ _____\n"     \
 	"  / __ \\                  / ____|  _ \\_   _|\n"  \
@@ -53,6 +58,9 @@ static void sbi_boot_prints(struct sbi_scratch *scratch, u32 hartid)
 	misa_string(str, sizeof(str));
 
 	/* Platform details */
+	#ifdef VENDOR_BUILD_NAME
+	sbi_printf("Vendor Build Name      : %s\n", VENDOR_BUILD_NAME);
+	#endif
 	sbi_printf("Platform Name          : %s\n", sbi_platform_name(plat));
 	sbi_printf("Platform HART Features : RV%d%s\n", xlen, str);
 	sbi_printf("Platform Max HARTs     : %d\n",
