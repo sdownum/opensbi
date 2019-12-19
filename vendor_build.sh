@@ -4,20 +4,21 @@
 export PATH=$PATH:./toolchain/sifive/tools/bin/:./toolchain/sifive/qemu/bin/
 export CROSS_COMPILE=riscv64-unknown-elf-
 export PLATFORM=qemu/virt
+export PLATFORM_TAG=`echo ${PLATFORM} | sed s*/*-*g`
 export VENDOR_NAME=eremitix
-export VENDOR_TEMPLATE=./include/vendor/${VENDOR_NAME}/
-export USERDEFS="-DVENDOR=${VENDOR_NAME}" 
-
-## Create vendor header
+export VENDOR_BUILD_TAG=${VENDOR_NAME}-${PLATFORM_TAG}-`date +"%d.%m.%Y.%H%M"`
+export USERDEFS="-DVENDOR=${VENDOR_NAME} -DVENDOR_BUILD_TAG=${VENDOR_BUILD_TAG}" 
 
 
 ## Build
 echo +++ ${VENDOR_NAME} build for OpenSBI +++
+echo +++       ${VENDOR_BUILD_TAG}        +++
 make clean
 make
 echo +++  ${VENDOR_NAME} build finished   +++
 
 
-## TODO: Generate vendor-specific header file on build
-## TODO: Create argument to run qemu after build
-## TODO: Test for existence of SiFive RISC-V build chain and QEMU in source tree
+## Run QEMU, if requested
+if [[ $# -eq 1 ]] && [[ $1 == "--qemu" ]]; then
+    qemu-system-riscv64  -machine virt -kernel ./build/platform/qemu/virt/firmware/fw_payload.elf -display none -serial stdio
+fi

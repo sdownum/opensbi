@@ -1,6 +1,9 @@
 #ifndef __VENDOR_H__
 #define __VENDOR_H__
 
-#define VENDOR_BUILD_NAME "eremitix-qemu-virt-12.12.2019.02"
+#define STR_IDENT(x) #x
+#define STR_MACRO(x) STR_IDENT(x)
+
+#define VENDOR_BUILD_NAME STR_MACRO(VENDOR_BUILD_TAG)
 
 #endif
