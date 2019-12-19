@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Setup
-export PATH=$PATH:~/Downloads/sifive/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin/:~/Downloads/sifive/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14/bin/
+export PATH=$PATH:./toolchain/sifive/tools/bin/:./toolchain/sifive/qemu/bin/
 export CROSS_COMPILE=riscv64-unknown-elf-
 export PLATFORM=qemu/virt
 export VENDOR_NAME=eremitix
